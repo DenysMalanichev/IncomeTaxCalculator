@@ -1,3 +1,5 @@
+using System.Net.Http.Json;
+using IncomeTaxCalculator.Domain.Contracts.TaxCalculator;
 using IncomeTaxCalculator.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
@@ -26,9 +28,9 @@ public class TaxCalculatorControllerIntegrationTests : WebApplicationFactory<Pro
             AnnualTaxPaid = 11_000.00M,
             MonthlyTaxPaid = 916.67M,
         };
-
+        
         // Act
-        var response = await _client.PostAsync("/api/TaxCalculator?grossAnnualSalary=40000", null!);
+        var response = await _client.PostAsJsonAsync("/api/TaxCalculator", new TaxCalculatorRequest { Salary = 40_000 });
 
         response.EnsureSuccessStatusCode();
         var responseString = await response.Content.ReadAsStringAsync();

@@ -1,5 +1,6 @@
 using IncomeTaxCalculator.Application.Exceptions;
 using IncomeTaxCalculator.Application.Services;
+using IncomeTaxCalculator.Domain.Contracts.TaxCalculator;
 
 namespace IncomeTaxCalculator.Tests;
 
@@ -10,7 +11,7 @@ public class TaxCalculatorServiceTests
     {
         // Arrange
         var taxCalculatorService = new TaxCalculatorService();
-        const decimal negativeSalary = -100;
+        TaxCalculatorRequest negativeSalary = new() { Salary = -100 };
         
         // Act & Assert
         Assert.Throws<NegativeSalaryException>(() => taxCalculatorService.CalculateTaxSummary(negativeSalary));
@@ -28,10 +29,11 @@ public class TaxCalculatorServiceTests
         decimal expectedTax)
     {
         // Arrange
+        TaxCalculatorRequest salary = new() { Salary = grossAnnualSalary };
         var taxCalculatorService = new TaxCalculatorService();
         
         // Act
-        var taxResult = taxCalculatorService.CalculateTaxSummary(grossAnnualSalary);
+        var taxResult = taxCalculatorService.CalculateTaxSummary(salary);
         
         // Assert
         Assert.Equal(expectedTax, taxResult.AnnualTaxPaid);

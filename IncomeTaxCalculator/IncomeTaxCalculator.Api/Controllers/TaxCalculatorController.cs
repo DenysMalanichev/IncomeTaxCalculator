@@ -1,4 +1,5 @@
 using IncomeTaxCalculator.Application.Interfaces;
+using IncomeTaxCalculator.Domain.Contracts.TaxCalculator;
 using IncomeTaxCalculator.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ public class TaxCalculatorController : ControllerBase
     }
 
     [HttpPost]
-    public TaxSummary CalculateTexes([FromQuery] decimal grossAnnualSalary)
+    public TaxSummary CalculateTexes([FromBody] TaxCalculatorRequest grossAnnualSalary)
     {
         return _taxCalculatorService.CalculateTaxSummary(grossAnnualSalary);
     }

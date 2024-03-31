@@ -1,0 +1,11 @@
+<div class="container">
+    <div>
+        <label for="salary"><strong>Gross Annual Salary:</strong></label>
+        <input type="number" [formControl]="this.salaryFormControl" required min="0.00" step="0.01" placeholder="0.00"/> 
+        <input type="submit" value="Calc" (click)="calculateTax()">
+    </div>
+
+    <div *ngIf="calculationResult">
+        <income-tax-calculation-result [calculationResult]="calculationResult"></income-tax-calculation-result>
+    </div>
+</div>

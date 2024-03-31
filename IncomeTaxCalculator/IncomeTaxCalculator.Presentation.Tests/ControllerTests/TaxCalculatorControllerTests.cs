@@ -1,5 +1,6 @@
 using IncomeTaxCalculator.Application.Interfaces;
 using IncomeTaxCalculator.Controllers;
+using IncomeTaxCalculator.Domain.Contracts.TaxCalculator;
 using IncomeTaxCalculator.Domain.Entities;
 using Moq;
 
@@ -12,7 +13,7 @@ public class TaxCalculatorControllerTests
     {
         // Arrange
         var mockService = new Mock<ITaxCalculatorService>();
-        const decimal grossAnnualSalary = 40_000;
+        TaxCalculatorRequest grossAnnualSalary = new() { Salary = 40_000 };
         var expectedTaxSummary = new TaxSummary
         {
             GrossAnnualSalary = 40_000.00M,

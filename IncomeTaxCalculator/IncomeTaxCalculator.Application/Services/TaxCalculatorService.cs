@@ -1,29 +1,30 @@
 using IncomeTaxCalculator.Application.Exceptions;
 using IncomeTaxCalculator.Application.Interfaces;
 using IncomeTaxCalculator.Application.TaxHandlers;
+using IncomeTaxCalculator.Domain.Contracts.TaxCalculator;
 using IncomeTaxCalculator.Domain.Entities;
 
 namespace IncomeTaxCalculator.Application.Services;
 
 public class TaxCalculatorService : ITaxCalculatorService
 {
-    public TaxSummary CalculateTaxSummary(decimal grossAnnualSalary)
+    public TaxSummary CalculateTaxSummary(TaxCalculatorRequest grossAnnualSalary)
     {
-        if (grossAnnualSalary < 0)
+        if (grossAnnualSalary.Salary < 0)
         {
             throw new NegativeSalaryException();
         }
 
         var taxHandler = SetupTaxBoundHandlersChain();
 
-        var annualTaxPaid = taxHandler.HandleTaxCalculation(grossAnnualSalary);
+        var annualTaxPaid = taxHandler.HandleTaxCalculation(grossAnnualSalary.Salary);
         
         return new TaxSummary
         {
-            GrossAnnualSalary = Math.Round(grossAnnualSalary, 2),
-            GrossMonthlySalary = Math.Round(grossAnnualSalary / 12M, 2),
-            NetAnnualSalary = Math.Round(grossAnnualSalary - annualTaxPaid, 2),
-            NetMonthlySalary = Math.Round((grossAnnualSalary - annualTaxPaid) / 12M, 2),
+            GrossAnnualSalary = Math.Round(grossAnnualSalary.Salary, 2),
+            GrossMonthlySalary = Math.Round(grossAnnualSalary.Salary / 12M, 2),
+            NetAnnualSalary = Math.Round(grossAnnualSalary.Salary - annualTaxPaid, 2),
+            NetMonthlySalary = Math.Round((grossAnnualSalary.Salary - annualTaxPaid) / 12M, 2),
             AnnualTaxPaid = Math.Round(annualTaxPaid, 2),
             MonthlyTaxPaid = Math.Round(annualTaxPaid / 12M, 2),
         };
