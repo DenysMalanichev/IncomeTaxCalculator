@@ -12,6 +12,7 @@ export class IncomeTaxCalculatorService {
   constructor(private http: HttpClient) {}
 
   calculateTax(salary: number): Observable<IncomeTaxCalculationResult> {
-    return this.http.post<IncomeTaxCalculationResult>(this.url, salary);
+    const requestBody = { salary: salary };
+    return this.http.post<IncomeTaxCalculationResult>(this.url, requestBody);
   }
 }

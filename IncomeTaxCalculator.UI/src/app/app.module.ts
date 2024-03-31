@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { IncomeTaxCalculatorComponent } from './components/income-tax-calculator/income-tax-calculator.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { IncomeTaxCalculationResultComponent } from './components/income-tax-calculation-result/income-tax-calculation-result.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { IncomeTaxCalculationResultComponent } from './components/income-tax-cal
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

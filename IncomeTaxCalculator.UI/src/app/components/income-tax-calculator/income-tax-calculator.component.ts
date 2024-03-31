@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { IncomeTaxCalculationResult } from 'src/app/models/incomeTaxCalculationResult';
 import { IncomeTaxCalculatorService } from 'src/app/services/income-tax-calculator-service/income-tax-calculator.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-income-tax-calculator',
@@ -10,17 +11,29 @@ import { IncomeTaxCalculatorService } from 'src/app/services/income-tax-calculat
 })
 export class IncomeTaxCalculatorComponent {
   calculationResult?: IncomeTaxCalculationResult;
-  salaryFormControl = new FormControl<number | null>(0);
+  salaryFormControl = new FormControl<number | null>(0, [
+    Validators.required,
+    Validators.min(0.00)
+  ]);
 
-  constructor(private taxCalculatorService: IncomeTaxCalculatorService) {}
+  constructor(
+    private taxCalculatorService: IncomeTaxCalculatorService,
+    private snackBar: MatSnackBar
+    ) {}
 
   calculateTax(): void {
-    const salary: number = this.salaryFormControl?.value ?? 0;
+    if(this.salaryFormControl.valid) {
+      const salary: number = this.salaryFormControl?.value ?? 0;
 
-    this.taxCalculatorService
-      .calculateTax(salary)
-      .subscribe(x => this.calculationResult = { ...x});
-
-      console.log(this.calculationResult);
+      this.taxCalculatorService
+        .calculateTax(salary)
+        .subscribe(x => this.calculationResult = { ...x});
+    }
+    else {
+      this.snackBar.open('Gross Annual Salary can not be a negative number', 'OK', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+    }    
   }
 }

@@ -1,14 +1,20 @@
 using IncomeTaxCalculator.Application.Configs;
+using IncomeTaxCalculator.Configs;
 using IncomeTaxCalculator.Middleware;
 
 namespace IncomeTaxCalculator;
 
 public class Program
 {
+    private const string AllowFrontEndSpecificOrigins = "_frontEndSpecificOrigins";
+    
     public static void Main(string[] args)
     {
-
         var builder = WebApplication.CreateBuilder(args);
+        
+        builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+        builder.AddCorsPolicy(AllowFrontEndSpecificOrigins);
 
         builder.Services.AddCustomServices();
 
@@ -29,6 +35,8 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+        
+        app.UseCors(AllowFrontEndSpecificOrigins);
 
         app.UseAuthorization();
 
