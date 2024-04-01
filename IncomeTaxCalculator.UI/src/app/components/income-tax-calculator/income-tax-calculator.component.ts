@@ -30,10 +30,14 @@ export class IncomeTaxCalculatorComponent {
         .subscribe(x => this.calculationResult = { ...x});
     }
     else {
-      this.snackBar.open('Gross Annual Salary can not be a negative number', 'OK', {
-        duration: 3000,
-        panelClass: ['error-snackbar'],
-      });
-    }    
+      this.showError('Gross Annual Salary can not be a negative number');
+    } 
+  }
+
+  showError(msg: string) {
+    this.snackBar.open(msg, 'OK', {
+      duration: 3000,
+      panelClass: ['error-snackbar'],
+    });
   }
 }

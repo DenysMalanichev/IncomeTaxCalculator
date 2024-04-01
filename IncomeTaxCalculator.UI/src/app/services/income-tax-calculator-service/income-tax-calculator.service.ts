@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+
 import { IncomeTaxCalculationResult } from 'src/app/models/incomeTaxCalculationResult';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IncomeTaxCalculatorService {
-  url='https://localhost:44340/api/TaxCalculator';
+
+  private apiUrl = environment.apiBaseUrl + environment.endpoints.taxCalculator;
 
   constructor(private http: HttpClient) {}
 
   calculateTax(salary: number): Observable<IncomeTaxCalculationResult> {
     const requestBody = { salary: salary };
-    return this.http.post<IncomeTaxCalculationResult>(this.url, requestBody);
+    return this.http.post<IncomeTaxCalculationResult>(this.apiUrl, requestBody);
   }
 }

@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { IncomeTaxCalculatorService } from './income-tax-calculator.service';
 import { IncomeTaxCalculationResult } from 'src/app/models/incomeTaxCalculationResult';
+import { environment } from 'src/environments/environment.development';
 
 describe('IncomeTaxCalculatorService', () => {
   let service: IncomeTaxCalculatorService;
@@ -40,7 +41,7 @@ describe('IncomeTaxCalculatorService', () => {
       fail
     );
 
-    const req = httpTestingController.expectOne(service.url);
+    const req = httpTestingController.expectOne(environment.apiBaseUrl + environment.endpoints.taxCalculator);
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual({ salary: 40000 });
     
